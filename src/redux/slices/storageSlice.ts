@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Resource from "../../classes/Resource";
 import { color } from "../../utils";
 
 function makeResourceObject(
@@ -143,7 +142,10 @@ const storageSlice = createSlice({
         payload: { resource, quantity },
       }: { payload: { resource: keyof typeof initialState; quantity: number } }
     ) => {
-      state[resource].currentQuantity += quantity;
+      const { maxQuantity, currentQuantity } = state[resource];
+      const remainedQuantity = maxQuantity - currentQuantity;
+      if (remainedQuantity >= quantity)
+        state[resource].currentQuantity += quantity;
     },
     discard: (
       state,
@@ -151,7 +153,8 @@ const storageSlice = createSlice({
         payload: { resource, quantity },
       }: { payload: { resource: keyof typeof initialState; quantity: number } }
     ) => {
-      state[resource].currentQuantity -= quantity;
+      if (quantity <= state[resource].currentQuantity)
+        state[resource].currentQuantity -= quantity;
     },
   },
 });

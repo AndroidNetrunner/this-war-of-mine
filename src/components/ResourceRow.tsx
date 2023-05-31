@@ -1,10 +1,9 @@
-import Resource from "../classes/Resource";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles/ResourceRow.module.css";
 import { RootState } from "../redux/store";
 import { ResourceName } from "../redux/slices/storageSlice";
-import { add } from "../redux/slices/storageSlice";
+import { add, discard } from "../redux/slices/storageSlice";
 
 function getResourceState(
   storage: RootState["storage"],
@@ -30,12 +29,20 @@ export default function ResourceRow({
     <tr className={styles[className] + " " + styles[color]}>
       <td>{korean}</td>
       <td className={!currentQuantity ? styles.zero : ""}>
-        {currentQuantity}
         <Button
           variant="outline-secondary"
+          disabled={!remainedQuantity}
           onClick={() => dispatch(add({ resource: resource, quantity: 1 }))}
         >
           Plus
+        </Button>
+        {currentQuantity}
+        <Button
+          variant="outline-secondary"
+          disabled={!currentQuantity}
+          onClick={() => dispatch(discard({ resource: resource, quantity: 1 }))}
+        >
+          Minus
         </Button>
       </td>
       <td>{value !== -1 ? value : "거래 불가(-1)"}</td>

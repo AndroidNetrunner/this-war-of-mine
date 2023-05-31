@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import styles from "./styles/Storage.module.css";
 import { RootState } from "../redux/store";
 import ResourceRow from "./ResourceRow";
-import { ResourceName } from "../redux/slices/storageSlice";
 
 export default function Storage() {
   const storage = useSelector((state: RootState) => state.storage);
