@@ -1,0 +1,27 @@
+.greenToken td:first-of-type {
+  text-shadow: 2px 2px green;
+}
+
+.redToken td:first-of-type {
+  text-shadow: 2px 2px red;
+}
+
+.yellowToken td:first-of-type {
+  text-shadow: 2px 2px yellow;
+}
+
+.grayToken td:first-of-type {
+  text-shadow: 2px 2px gray;
+}
+
+.brownToken td:first-of-type {
+  text-shadow: 2px 2px brown;
+}
+
+.blueToken td:first-of-type {
+  text-shadow: 2px 2px blue;
+}
+
+td.zero {
+  color: red;
+}
