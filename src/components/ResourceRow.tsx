@@ -2,16 +2,17 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles/ResourceRow.module.css";
 import { RootState } from "../redux/store";
-import { ResourceName } from "../redux/slices/storageSlice";
+import { ResourceName } from "../redux/slices/resourceSlice";
 import { add, discard } from "../redux/slices/storageSlice";
 
-function getResourceState(
-  storage: RootState["storage"],
-  resourceName: string
+function getResourceKey(
+  resourceName: string,
+  resourceList: { [x in ResourceName]: { english: string } }
 ): ResourceName {
-  return Object.keys(storage).filter(
-    (property) => storage[property as ResourceName].english === resourceName
-  )[0] as ResourceName;
+  for (let key of Object.keys(resourceList) as ResourceName[]) {
+    if (resourceList[key].english === resourceName) return key;
+  }
+  throw new Error("NO RESOURCE ERROR");
 }
 
 export default function ResourceRow({
@@ -19,10 +20,17 @@ export default function ResourceRow({
 }: {
   resourceName: string;
 }) {
-  const storage = useSelector((state: RootState) => state.storage);
-  const resource = getResourceState(storage, resourceName);
-  const { className, korean, maxQuantity, currentQuantity, value, color } =
-    storage[resource];
+  const resource = getResourceKey(
+    resourceName,
+    useSelector((state: RootState) => state.resource)
+  );
+  const currentQuantity = useSelector(
+    (state: RootState) => state.storage[resource]
+  );
+
+  const { className, korean, maxQuantity, value, color } = useSelector(
+    (state: RootState) => state.resource[resource]
+  );
   const remainedQuantity = maxQuantity - currentQuantity;
   const dispatch = useDispatch();
   return (
@@ -51,5 +59,4 @@ export default function ResourceRow({
       </td>
     </tr>
   );
-  // return <></>;
 }

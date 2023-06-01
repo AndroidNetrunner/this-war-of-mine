@@ -1,19 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { makeResourceObject } from "../utils";
 
 const initialState = {
-  wood: 4,
-  component: 2,
-  water: 2,
+  wood: 0,
+  component: 0,
+  water: 0,
   alcheol: 0,
   moonshine: 0,
   cigarette: 0,
   sugar: 0,
   coffee: 0,
   vegetable: 0,
-  rawFood: 3,
+  rawFood: 0,
   cannedFood: 0,
-  shovel: 1,
-  lockpick: 1,
+  shovel: 0,
+  lockpick: 0,
   filter: 0,
   mechanicalPart: 0,
   electricalPart: 0,
@@ -38,8 +39,8 @@ const initialState = {
   bandages: 0,
 };
 
-const storageSlice = createSlice({
-  name: "storage",
+const findingsSlice = createSlice({
+  name: "findings",
   initialState,
   reducers: {
     add: (
@@ -61,6 +62,4 @@ const storageSlice = createSlice({
   },
 });
 
-export const { add, discard } = storageSlice.actions;
-export default storageSlice.reducer;
-export type ResourceName = keyof typeof initialState;
+export default findingsSlice.reducer;
