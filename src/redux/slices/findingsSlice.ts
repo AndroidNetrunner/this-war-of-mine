@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { makeResourceObject } from "../utils";
+import ResourceList from "../../interfaces/ResourceList";
 
-const initialState = {
+const initialState: ResourceList = {
   wood: 0,
   component: 0,
   water: 0,
@@ -36,6 +36,7 @@ const initialState = {
   herb: 0,
   chems: 0,
   herbalMeds: 0,
+  meds: 0,
   bandages: 0,
 };
 
@@ -59,7 +60,14 @@ const findingsSlice = createSlice({
     ) => {
       state[resource] -= quantity;
     },
+    reset: (state) => {
+      state = initialState; // initialState에 의존 안하고 적는 방법 없을까?
+    },
+    initialize: (state, action) => {
+      return action.payload;
+    },
   },
 });
 
+export const { add, discard, reset, initialize } = findingsSlice.actions;
 export default findingsSlice.reducer;

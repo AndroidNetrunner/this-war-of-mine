@@ -3,11 +3,11 @@ import Table from "react-bootstrap/Table";
 import { useSelector } from "react-redux";
 import styles from "./styles/Storage.module.css";
 import { RootState } from "../redux/store";
-import ResourceRow from "./ResourceRow";
+import StorageRow from "./ResourceRow";
 import { ResourceName } from "../redux/slices/resourceSlice";
 
 export default function Storage() {
-  const storage = useSelector((state: RootState) => state.resource);
+  const resource = useSelector((state: RootState) => state.resource);
   return (
     <Table className={styles.storage}>
       <thead>
@@ -19,8 +19,12 @@ export default function Storage() {
         </tr>
       </thead>
       <tbody>
-        {Object.values(storage).map((resource) => (
-          <ResourceRow key={resource.english} resourceName={resource.english} />
+        {Object.keys(resource).map((resource) => (
+          <StorageRow
+            key={resource}
+            resource={resource as ResourceName}
+            pageName="storage"
+          />
         ))}
       </tbody>
     </Table>

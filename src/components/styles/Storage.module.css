@@ -4,3 +4,7 @@
   border: none;
   font-weight: bold;
 }
+
+.storage th {
+  text-align: center;
+}

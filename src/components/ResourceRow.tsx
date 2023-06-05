@@ -3,35 +3,36 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles/ResourceRow.module.css";
 import { RootState } from "../redux/store";
 import { ResourceName } from "../redux/slices/resourceSlice";
-import { add, discard } from "../redux/slices/storageSlice";
-
-function getResourceKey(
-  resourceName: string,
-  resourceList: { [x in ResourceName]: { english: string } }
-): ResourceName {
-  for (let key of Object.keys(resourceList) as ResourceName[]) {
-    if (resourceList[key].english === resourceName) return key;
-  }
-  throw new Error("NO RESOURCE ERROR");
-}
+import {
+  add as addFindings,
+  discard as discardFindings,
+} from "../redux/slices/findingsSlice";
+import {
+  add as addStorage,
+  discard as discardStorage,
+} from "../redux/slices/storageSlice";
 
 export default function ResourceRow({
-  resourceName,
+  resource,
+  pageName,
 }: {
-  resourceName: string;
+  resource: ResourceName;
+  pageName: "storage" | "findings";
 }) {
-  const resource = getResourceKey(
-    resourceName,
-    useSelector((state: RootState) => state.resource)
-  );
-  const currentQuantity = useSelector(
+  const storageQuantity = useSelector(
     (state: RootState) => state.storage[resource]
   );
-
+  const findingsQuantity = useSelector(
+    (state: RootState) => state.findings[resource]
+  );
+  const currentQuantity =
+    pageName === "storage" ? storageQuantity : findingsQuantity;
+  const add = pageName === "storage" ? addStorage : addFindings;
+  const discard = pageName === "storage" ? discardStorage : discardFindings;
   const { className, korean, maxQuantity, value, color } = useSelector(
     (state: RootState) => state.resource[resource]
   );
-  const remainedQuantity = maxQuantity - currentQuantity;
+  const remainedQuantity = maxQuantity - (storageQuantity + findingsQuantity);
   const dispatch = useDispatch();
   return (
     <tr className={styles[className] + " " + styles[color]}>

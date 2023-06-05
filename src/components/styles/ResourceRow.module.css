@@ -22,6 +22,6 @@
   text-shadow: 2px 2px blue;
 }
 
-td.zero {
+tr > td.zero {
   color: red;
 }

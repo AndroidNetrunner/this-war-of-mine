@@ -1,2 +1,10 @@
-.findings {
+.findings td,
+.findings th {
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.findings th {
+  text-align: center;
 }

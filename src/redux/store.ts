@@ -3,7 +3,7 @@ import resourceReducer from "./slices/resourceSlice";
 import storageReducer from "./slices/storageSlice";
 import findingsReducer from "./slices/findingsSlice";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     resource: resourceReducer,
     storage: storageReducer,
@@ -12,3 +12,4 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+export default store;

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { makeResourceObject } from "../utils";
-
 const initialState = {
   wood: makeResourceObject("WOOD", "목재", "brown", 50, -1, 1),
   component: makeResourceObject("COMPONENT", "잡동사니", "white", 50, -1, 1),
@@ -85,6 +84,7 @@ const initialState = {
   herb: makeResourceObject("HERB", "허브", "yellow", 3, 1, 0),
   chems: makeResourceObject("CHEMS", "화공약품", "yellow", 6, 1, 0),
   herbalMeds: makeResourceObject("HERBAL MEDS", "허브약", "yellow", 3, 10, 0),
+  meds: makeResourceObject("MEDS", "의약품", "yellow", 3, 10, 0),
   bandages: makeResourceObject("BANDAGES", "붕대", "yellow", 3, 10, 0),
 };
 
@@ -128,9 +128,12 @@ const resourceSlice = createSlice({
     ) => {
       state[resource].maxQuantity += modifier;
     },
+    initialize: (state, action) => {
+      return action.payload;
+    },
   },
 });
 
-export const { raiseValue, lowerValue } = resourceSlice.actions;
+export const { raiseValue, lowerValue, initialize } = resourceSlice.actions;
 export default resourceSlice.reducer;
 export type ResourceName = keyof typeof initialState;
