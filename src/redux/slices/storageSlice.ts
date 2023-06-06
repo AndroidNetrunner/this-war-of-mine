@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ResourceList from "../../interfaces/ResourceList";
+import ResourceStatus from "../../interfaces/ResourceStatus";
 
-const initialState: ResourceList = {
+const initialState: ResourceStatus = {
   wood: 4,
   component: 4,
   water: 2,
@@ -65,10 +65,10 @@ const storageSlice = createSlice({
       {
         payload: newStorage,
       }: {
-        payload: ResourceList;
+        payload: ResourceStatus;
       }
     ) => {
-      state = newStorage;
+      return newStorage;
     },
     initialize: (state, action) => {
       return action.payload;

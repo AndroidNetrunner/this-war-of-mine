@@ -5,9 +5,6 @@ import type { AppProps } from "next/app";
 import store from "../redux/store";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef } from "react";
-import { initialize as initializeResource } from "../redux/slices/resourceSlice";
-import { initialize as initializeStorage } from "../redux/slices/storageSlice";
-import { initialize as initializeFindings } from "../redux/slices/findingsSlice";
 
 const inter = Inter({ subsets: ["latin"] });
 

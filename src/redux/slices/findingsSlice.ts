@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ResourceList from "../../interfaces/ResourceList";
+import ResourceStatus from "../../interfaces/ResourceStatus";
 
-const initialState: ResourceList = {
+const initialState: ResourceStatus = {
   wood: 0,
   component: 0,
   water: 0,
@@ -61,13 +61,13 @@ const findingsSlice = createSlice({
       state[resource] -= quantity;
     },
     reset: (state) => {
-      state = initialState; // initialState에 의존 안하고 적는 방법 없을까?
+      return initialState; // initialState에 의존 안 하는 방법 없을까
     },
-    initialize: (state, action) => {
+    update: (state, action) => {
       return action.payload;
     },
   },
 });
 
-export const { add, discard, reset, initialize } = findingsSlice.actions;
+export const { add, discard, reset, update } = findingsSlice.actions;
 export default findingsSlice.reducer;

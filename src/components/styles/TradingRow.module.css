@@ -1,0 +1,7 @@
+.resource {
+  color: white;
+}
+
+tr > td.zero {
+  color: red;
+}

@@ -1,4 +1,4 @@
-export default interface ResourceList {
+export default interface ResourceStatus {
   wood: number;
   component: number;
   water: number;

@@ -7,7 +7,7 @@ import FindingsRow from "./ResourceRow";
 import { update } from "../redux/slices/storageSlice";
 import { reset } from "../redux/slices/findingsSlice";
 import { ResourceName } from "../redux/slices/resourceSlice";
-import ResourceList from "../interfaces/ResourceList";
+import ResourceStatus from "../interfaces/ResourceStatus";
 export default function Findings() {
   const findings = useSelector((state: RootState) => state.findings);
   const storage = useSelector((state: RootState) => state.storage);
@@ -46,10 +46,10 @@ export default function Findings() {
 }
 
 function addFindingsToNewStorage(
-  findings: ResourceList,
-  storage: ResourceList
+  findings: ResourceStatus,
+  storage: ResourceStatus
 ) {
-  const newStorage: ResourceList = { ...storage };
+  const newStorage: ResourceStatus = { ...storage };
   Object.keys(newStorage).forEach((resource) => {
     newStorage[resource as ResourceName] =
       storage[resource as ResourceName] + findings[resource as ResourceName];

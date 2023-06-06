@@ -32,32 +32,30 @@ export default function ResourceRow({
   const { className, korean, maxQuantity, value, color } = useSelector(
     (state: RootState) => state.resource[resource]
   );
-  const remainedQuantity = maxQuantity - (storageQuantity + findingsQuantity);
+  const inventory = maxQuantity - (storageQuantity + findingsQuantity);
   const dispatch = useDispatch();
   return (
     <tr className={styles[className] + " " + styles[color]}>
       <td>{korean}</td>
       <td className={!currentQuantity ? styles.zero : ""}>
         <Button
-          variant="outline-secondary"
-          disabled={!remainedQuantity}
+          variant="success"
+          disabled={!inventory}
           onClick={() => dispatch(add({ resource: resource, quantity: 1 }))}
         >
-          Plus
+          +
         </Button>
         {currentQuantity}
         <Button
-          variant="outline-secondary"
+          variant="danger"
           disabled={!currentQuantity}
           onClick={() => dispatch(discard({ resource: resource, quantity: 1 }))}
         >
-          Minus
+          -
         </Button>
       </td>
       <td>{value !== -1 ? value : "거래 불가(-1)"}</td>
-      <td className={!remainedQuantity ? styles.zero : ""}>
-        {remainedQuantity}
-      </td>
+      <td className={!inventory ? styles.zero : ""}>{inventory}</td>
     </tr>
   );
 }
