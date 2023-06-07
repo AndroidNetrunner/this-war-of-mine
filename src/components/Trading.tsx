@@ -21,20 +21,22 @@ export default function Trading() {
       <h1>
         거래 수수료:{" "}
         <Button
+          variant="success"
           onClick={() => {
             setComission((prev) => prev + 1);
           }}
         >
-          Plus
+          +
         </Button>
         {comission}
         <Button
+          variant="danger"
           disabled={!comission}
           onClick={() => {
             setComission((prev) => prev - 1);
           }}
         >
-          Minus
+          -
         </Button>
       </h1>
       <Form>

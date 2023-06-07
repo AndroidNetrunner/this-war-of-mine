@@ -9,6 +9,7 @@ import ResourceStatus from "../interfaces/ResourceStatus";
 import { update } from "../redux/slices/findingsSlice";
 import { reset } from "../redux/slices/tradingSlice";
 import styles from "./styles/TradingInOutside.module.css";
+import ResourceInfoList from "../interfaces/ResourceInfoList";
 
 export default function TradingInOutside({ comission }: { comission: number }) {
   const resource = useSelector((state: RootState) => state.resource);
@@ -32,13 +33,27 @@ export default function TradingInOutside({ comission }: { comission: number }) {
   return (
     <>
       <Button
+        variant="success"
         onClick={() => {
           dispatch(update(trade(findings, trading)));
           dispatch(reset());
         }}
+        disabled={!isPossibleTrade(trading, resource, comission)}
       >
         발견물 더미에서 교환
       </Button>
+      <Button
+        variant="danger"
+        onClick={() => {
+          dispatch(reset());
+        }}
+      >
+        초기화
+      </Button>
+      <span>
+        내 가치({calculateValue(trading.myself, resource)}) vs 상대 가치(
+        {calculateValue(trading.myself, resource)}) + 거래 수수료({comission})
+      </span>
       <Table>
         <thead>
           <tr className={styles.title}>
@@ -60,5 +75,31 @@ export default function TradingInOutside({ comission }: { comission: number }) {
         </tbody>
       </Table>
     </>
+  );
+}
+
+function isPossibleTrade(
+  trading: { myself: ResourceStatus; opponent: ResourceStatus },
+  resource: ResourceInfoList,
+  comission: number
+) {
+  const { myself, opponent } = trading;
+  const myValue = calculateValue(myself, resource);
+  const opponentValue = calculateValue(opponent, resource);
+  return myValue && opponentValue && myValue >= opponentValue + comission;
+}
+
+function calculateValue(
+  resourceStatus: ResourceStatus,
+  resource: ResourceInfoList
+) {
+  return Object.keys(resourceStatus).reduce(
+    (accumulator: number, currentValue: string) => {
+      accumulator +=
+        resourceStatus[currentValue as ResourceName] *
+        resource[currentValue as ResourceName].value;
+      return accumulator;
+    },
+    0
   );
 }

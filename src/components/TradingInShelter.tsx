@@ -11,33 +11,6 @@ import { reset } from "../redux/slices/tradingSlice";
 import styles from "./styles/TradingInShelter.module.css";
 import ResourceInfoList from "../interfaces/ResourceInfoList";
 
-function isPossibleTrade(
-  trading: { myself: ResourceStatus; opponent: ResourceStatus },
-  resource: ResourceInfoList,
-  comission: number
-) {
-  const { myself, opponent } = trading;
-  const myValue = Object.keys(myself).reduce(
-    (accumulator: number, currentValue: string) => {
-      accumulator +=
-        myself[currentValue as ResourceName] *
-        resource[currentValue as ResourceName].value;
-      return accumulator;
-    },
-    0
-  );
-  const opponentValue = Object.keys(opponent).reduce(
-    (accumulator: number, currentValue: string) => {
-      accumulator +=
-        opponent[currentValue as ResourceName] *
-        resource[currentValue as ResourceName].value;
-      return accumulator;
-    },
-    0
-  );
-  return myValue && opponentValue && myValue >= opponentValue + comission;
-}
-
 export default function TradingInShelter({ comission }: { comission: number }) {
   const resource = useSelector((state: RootState) => state.resource);
   const storage = useSelector((state: RootState) => state.storage);
@@ -60,6 +33,7 @@ export default function TradingInShelter({ comission }: { comission: number }) {
   return (
     <>
       <Button
+        variant="success"
         onClick={() => {
           dispatch(update(trade(storage, trading)));
           dispatch(reset());
@@ -68,6 +42,18 @@ export default function TradingInShelter({ comission }: { comission: number }) {
       >
         저장고에서 교환
       </Button>
+      <Button
+        variant="danger"
+        onClick={() => {
+          dispatch(reset());
+        }}
+      >
+        초기화
+      </Button>
+      <span>
+        내 가치({calculateValue(trading.myself, resource)}) vs 상대 가치(
+        {calculateValue(trading.opponent, resource)}) + 거래 수수료({comission})
+      </span>
       <Table>
         <thead>
           <tr className={styles.title}>
@@ -89,5 +75,31 @@ export default function TradingInShelter({ comission }: { comission: number }) {
         </tbody>
       </Table>
     </>
+  );
+}
+
+function isPossibleTrade(
+  trading: { myself: ResourceStatus; opponent: ResourceStatus },
+  resource: ResourceInfoList,
+  comission: number
+) {
+  const { myself, opponent } = trading;
+  const myValue = calculateValue(myself, resource);
+  const opponentValue = calculateValue(opponent, resource);
+  return myValue && opponentValue && myValue >= opponentValue + comission;
+}
+
+function calculateValue(
+  resourceStatus: ResourceStatus,
+  resource: ResourceInfoList
+) {
+  return Object.keys(resourceStatus).reduce(
+    (accumulator: number, currentValue: string) => {
+      accumulator +=
+        resourceStatus[currentValue as ResourceName] *
+        resource[currentValue as ResourceName].value;
+      return accumulator;
+    },
+    0
   );
 }
