@@ -6,27 +6,27 @@ export default function Navbar({ setPage }: { setPage: Function }) {
   return (
     <BootstrapNavbar bg="secondary" variant="dark">
       <Nav className="me-auto">
-        <Nav
+        <Nav.Link
           onClick={() => {
             setPage("storage");
           }}
         >
           저장고
-        </Nav>
-        <Nav
+        </Nav.Link>
+        <Nav.Link
           onClick={() => {
             setPage("findings");
           }}
         >
           발견물 더미
-        </Nav>
-        <Nav
+        </Nav.Link>
+        <Nav.Link
           onClick={() => {
             setPage("trading");
           }}
         >
           거래
-        </Nav>
+        </Nav.Link>
       </Nav>
     </BootstrapNavbar>
   );
