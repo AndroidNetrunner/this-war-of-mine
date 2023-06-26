@@ -52,7 +52,7 @@ export default function TradingInOutside({ comission }: { comission: number }) {
       </Button>
       <span>
         내 가치({calculateValue(trading.myself, resource)}) vs 상대 가치(
-        {calculateValue(trading.myself, resource)}) + 거래 수수료({comission})
+        {calculateValue(trading.opponent, resource)}) + 거래 수수료({comission})
       </span>
       <Table>
         <thead>
