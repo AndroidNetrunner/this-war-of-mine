@@ -2,7 +2,11 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles/ResourceRow.module.css";
 import { RootState } from "../redux/store";
-import { ResourceName } from "../redux/slices/resourceSlice";
+import {
+  ResourceName,
+  raiseValue,
+  lowerValue,
+} from "../redux/slices/resourceSlice";
 import {
   add as addFindings,
   discard as discardFindings,
@@ -45,7 +49,7 @@ export default function ResourceRow({
         >
           +
         </Button>
-        {currentQuantity}
+        {` ${currentQuantity} `}
         <Button
           variant="danger"
           disabled={!currentQuantity}
@@ -54,7 +58,26 @@ export default function ResourceRow({
           -
         </Button>
       </td>
-      <td>{value !== -1 ? value : "거래 불가(-1)"}</td>
+      <td>
+        <Button
+          variant="success"
+          onClick={() =>
+            dispatch(raiseValue({ resource: resource, modifier: 1 }))
+          }
+        >
+          +
+        </Button>
+        {` ${value !== -1 ? value : "거래 불가(-1)"} `}
+        <Button
+          variant="danger"
+          disabled={value < 0}
+          onClick={() =>
+            dispatch(lowerValue({ resource: resource, modifier: 1 }))
+          }
+        >
+          -
+        </Button>
+      </td>
       <td className={!inventory ? styles.zero : ""}>{inventory}</td>
     </tr>
   );
