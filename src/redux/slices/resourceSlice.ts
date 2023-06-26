@@ -83,7 +83,7 @@ const initialState = {
   shotgun: makeResourceObject("SHOTGUN", "산탄총", "red", 2, 20, 2),
   herb: makeResourceObject("HERB", "허브", "yellow", 3, 1, 0),
   chems: makeResourceObject("CHEMS", "화공약품", "yellow", 6, 1, 0),
-  herbalMeds: makeResourceObject("HERBAL MEDS", "허브약", "yellow", 3, 10, 0),
+  herbalMeds: makeResourceObject("HERBAL MEDS", "허브약", "yellow", 3, 6, 0),
   meds: makeResourceObject("MEDS", "의약품", "yellow", 3, 10, 0),
   bandages: makeResourceObject("BANDAGES", "붕대", "yellow", 3, 10, 0),
 };
