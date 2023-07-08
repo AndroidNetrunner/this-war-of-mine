@@ -1,27 +1,39 @@
 .greenToken td:first-of-type {
-  text-shadow: 2px 2px green;
+  color: lightgreen;
 }
 
 .redToken td:first-of-type {
-  text-shadow: 2px 2px red;
+  color: pink;
 }
 
 .yellowToken td:first-of-type {
-  text-shadow: 2px 2px yellow;
+  color: yellow;
 }
 
 .grayToken td:first-of-type {
-  text-shadow: 2px 2px gray;
+  color: lightgray;
 }
 
 .brownToken td:first-of-type {
-  text-shadow: 2px 2px brown;
+  color: #c4a4b4;
 }
 
 .blueToken td:first-of-type {
-  text-shadow: 2px 2px blue;
+  color: rgb(139, 207, 234);
+}
+
+tr.resourceRow > td {
+  font-size: 2rem;
+  text-align: center;
 }
 
 tr > td.zero {
   color: red;
+}
+
+.flexContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }

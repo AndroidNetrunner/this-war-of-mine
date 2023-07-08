@@ -1,5 +1,6 @@
 .resource {
   color: white;
+  font-size: 2rem;
 }
 
 tr > td.zero {

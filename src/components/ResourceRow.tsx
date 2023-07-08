@@ -39,44 +39,58 @@ export default function ResourceRow({
   const inventory = maxQuantity - (storageQuantity + findingsQuantity);
   const dispatch = useDispatch();
   return (
-    <tr className={styles[className] + " " + styles[color]}>
+    <tr
+      className={
+        styles.resourceRow +
+        " " +
+        styles[className] +
+        " " +
+        styles[color + "Token"]
+      }
+    >
       <td>{korean}</td>
       <td className={!currentQuantity ? styles.zero : ""}>
-        <Button
-          variant="success"
-          disabled={!inventory}
-          onClick={() => dispatch(add({ resource: resource, quantity: 1 }))}
-        >
-          +
-        </Button>
-        {` ${currentQuantity} `}
-        <Button
-          variant="danger"
-          disabled={!currentQuantity}
-          onClick={() => dispatch(discard({ resource: resource, quantity: 1 }))}
-        >
-          -
-        </Button>
+        <div className={styles.flexContainer}>
+          <Button
+            variant="success"
+            disabled={!inventory}
+            onClick={() => dispatch(add({ resource: resource, quantity: 1 }))}
+          >
+            +
+          </Button>
+          {` ${currentQuantity} `}
+          <Button
+            variant="danger"
+            disabled={!currentQuantity}
+            onClick={() =>
+              dispatch(discard({ resource: resource, quantity: 1 }))
+            }
+          >
+            -
+          </Button>
+        </div>
       </td>
       <td>
-        <Button
-          variant="success"
-          onClick={() =>
-            dispatch(raiseValue({ resource: resource, modifier: 1 }))
-          }
-        >
-          +
-        </Button>
-        {` ${value !== -1 ? value : "거래 불가(-1)"} `}
-        <Button
-          variant="danger"
-          disabled={value < 0}
-          onClick={() =>
-            dispatch(lowerValue({ resource: resource, modifier: 1 }))
-          }
-        >
-          -
-        </Button>
+        <div className={styles.flexContainer}>
+          <Button
+            variant="success"
+            onClick={() =>
+              dispatch(raiseValue({ resource: resource, modifier: 1 }))
+            }
+          >
+            +
+          </Button>
+          {` ${value !== -1 ? value : "거래 불가(-1)"} `}
+          <Button
+            variant="danger"
+            disabled={value < 0}
+            onClick={() =>
+              dispatch(lowerValue({ resource: resource, modifier: 1 }))
+            }
+          >
+            -
+          </Button>
+        </div>
       </td>
       <td className={!inventory ? styles.zero : ""}>{inventory}</td>
     </tr>
