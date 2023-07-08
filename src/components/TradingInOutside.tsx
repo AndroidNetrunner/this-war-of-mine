@@ -59,7 +59,8 @@ export default function TradingInOutside({ comission }: { comission: number }) {
           <tr className={styles.title}>
             <th>보유량</th>
             <th>판매량</th>
-            <th>이름(가치)</th>
+            <th>이름</th>
+            <th>가치</th>
             <th>구매량</th>
             <th>재고량</th>
           </tr>

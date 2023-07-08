@@ -58,9 +58,8 @@ export default function TradingRow({
           -
         </Button>
       </td>
-      <td>
-        {korean} : {value >= 0 ? `$${value}` : `거래 불가`}
-      </td>
+      <td>{korean}</td>
+      <td>{value >= 0 ? `$${value}` : `거래 불가`}</td>
       <td>
         <Button
           variant="success"
