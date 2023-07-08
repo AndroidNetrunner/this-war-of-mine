@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { reset } from "../redux/slices/tradingSlice";
 
 export default function Trading() {
-  const [tradingPlace, setTradingPlace] = useState("shelter");
+  const [tradingPlace, setTradingPlace] = useState("outside");
   const [comission, setComission] = useState(0);
   const dispatch = useDispatch();
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {

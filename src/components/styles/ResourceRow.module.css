@@ -25,6 +25,7 @@
 tr.resourceRow > td {
   font-size: 2rem;
   text-align: center;
+  border-right: 1px white solid;
 }
 
 tr > td.zero {
