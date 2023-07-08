@@ -33,7 +33,7 @@ export default function ResourceRow({
     pageName === "storage" ? storageQuantity : findingsQuantity;
   const add = pageName === "storage" ? addStorage : addFindings;
   const discard = pageName === "storage" ? discardStorage : discardFindings;
-  const { className, korean, maxQuantity, value, color } = useSelector(
+  const { className, korean, maxQuantity, value, color, weight } = useSelector(
     (state: RootState) => state.resource[resource]
   );
   const inventory = maxQuantity - (storageQuantity + findingsQuantity);
@@ -70,7 +70,8 @@ export default function ResourceRow({
           </Button>
         </div>
       </td>
-      <td>
+      <td className={styles.weight}>{weight}</td>
+      <td className={styles.value}>
         <div className={styles.flexContainer}>
           <Button
             variant="success"

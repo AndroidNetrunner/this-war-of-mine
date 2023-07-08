@@ -53,6 +53,10 @@ export default function Trading() {
           onChange={handleChange}
         />
       </Form>
+      {
+        // 내 자원 테이블, 자원 가치, 상대 테이블 가져오기
+        // 보유량이 0개인 경우 아예 띄우지 않기
+      }
       {tradingPlace === "shelter" && <TradingInShelter comission={comission} />}
       {tradingPlace === "outside" && <TradingInOutside comission={comission} />}
     </>

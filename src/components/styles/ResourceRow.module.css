@@ -38,3 +38,7 @@ tr > td.zero {
   align-items: center;
   width: 100%;
 }
+
+td.value {
+  color: yellow;
+}
