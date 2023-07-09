@@ -48,7 +48,7 @@ const storageSlice = createSlice({
       state,
       {
         payload: { resource, quantity },
-      }: { payload: { resource: keyof typeof initialState; quantity: number } }
+      }: { payload: { resource: ResourceName; quantity: number } }
     ) => {
       state[resource] += quantity;
     },
@@ -56,7 +56,7 @@ const storageSlice = createSlice({
       state,
       {
         payload: { resource, quantity },
-      }: { payload: { resource: keyof typeof initialState; quantity: number } }
+      }: { payload: { resource: ResourceName; quantity: number } }
     ) => {
       state[resource] -= quantity;
     },

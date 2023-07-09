@@ -20,12 +20,10 @@ export default function TradingInOutside({ comission }: { comission: number }) {
     findings: ResourceStatus,
     trading: { myself: ResourceStatus; opponent: ResourceStatus }
   ) {
-    const newfindings = { ...findings };
-    Object.keys(newfindings).forEach((resource) => {
-      newfindings[resource as ResourceName] +=
-        trading.opponent[resource as ResourceName];
-      newfindings[resource as ResourceName] -=
-        trading.myself[resource as ResourceName];
+    const newfindings: ResourceStatus = { ...findings };
+    Object.keys(newfindings).forEach((resource: ResourceName) => {
+      newfindings[resource] += trading.opponent[resource];
+      newfindings[resource] -= trading.myself[resource];
     });
     return newfindings;
   }
