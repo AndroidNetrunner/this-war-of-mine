@@ -4,13 +4,16 @@ import Button from "react-bootstrap/Button";
 import TradingInShelter from "./TradingInShelter";
 import TradingInOutside from "./TradingInOutside";
 import styles from "./styles/Trading.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { reset } from "../redux/slices/tradingSlice";
+import { RootState } from "../redux/store";
+import TradingTable from "./TradingTable";
 
 export default function Trading() {
   const [tradingPlace, setTradingPlace] = useState("outside");
   const [comission, setComission] = useState(0);
   const dispatch = useDispatch();
+  const storage = useSelector((state: RootState) => state.storage);
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.persist();
     setTradingPlace(e.target.value);
@@ -53,12 +56,23 @@ export default function Trading() {
           onChange={handleChange}
         />
       </Form>
+      <div className={styles.container}>
+        <TradingTable
+          possession="myself"
+          className={styles.myself}
+          resourceList={storage}
+        />
+        <TradingTable
+          possession="opponent"
+          className={styles.opponent}
+          resourceList={storage}
+        />
+      </div>
       {
-        // 내 자원 테이블, 자원 가치, 상대 테이블 가져오기
-        // 보유량이 0개인 경우 아예 띄우지 않기
+        // TradingTable에서 거래 가능한 물품들 계산하는 함수 구현
       }
-      {tradingPlace === "shelter" && <TradingInShelter comission={comission} />}
-      {tradingPlace === "outside" && <TradingInOutside comission={comission} />}
+      {/* {tradingPlace === "shelter" && <TradingInShelter comission={comission} />}
+      {tradingPlace === "outside" && <TradingInOutside comission={comission} />} */}
     </>
   );
 }

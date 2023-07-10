@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+}
+
+.opponent,
+.myself {
+  font-size: 1rem;
+  color: white;
+  flex: 1;
+}
+
+.myself tr {
+  border-right: 1rem double white;
+}
+
+.myself td,
+.opponent td {
+  border: none;
+}
