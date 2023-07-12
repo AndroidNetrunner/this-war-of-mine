@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ResourceStatus from "../../interfaces/ResourceStatus";
-import { ResourceName } from "./resourceSlice";
+import { ResourceStatus, ResourceName } from "../../types/types";
 
 const initialState: { myself: ResourceStatus; opponent: ResourceStatus } = {
   myself: {
@@ -97,7 +96,8 @@ const tradingSlice = createSlice({
         };
       }
     ) => {
-      state[payload.person][payload.resource] += 1;
+      state[payload.person][payload.resource] =
+        state[payload.person][payload.resource] || 0 + 1;
     },
     discard: (
       state,
@@ -110,7 +110,8 @@ const tradingSlice = createSlice({
         };
       }
     ) => {
-      state[payload.person][payload.resource] -= 1;
+      state[payload.person][payload.resource] =
+        state[payload.person][payload.resource] || 0 - 1;
     },
   },
 });

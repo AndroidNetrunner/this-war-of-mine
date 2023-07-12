@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { makeResourceObject } from "../utils";
-const initialState = {
+import { ResourceInfoList } from "../../types/types";
+
+const initialState: ResourceInfoList = {
   wood: makeResourceObject("WOOD", "목재", "brown", 50, -1, 1),
   component: makeResourceObject("COMPONENT", "잡동사니", "white", 50, -1, 1),
   water: makeResourceObject("WATER", "물", "blue", 6, -1, 1),
@@ -136,4 +138,3 @@ const resourceSlice = createSlice({
 
 export const { raiseValue, lowerValue, initialize } = resourceSlice.actions;
 export default resourceSlice.reducer;
-export type ResourceName = keyof typeof initialState;

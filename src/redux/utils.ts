@@ -1,4 +1,4 @@
-import { color } from "../utils";
+import { color } from "../types/types";
 
 export function makeResourceObject(
   english: string,

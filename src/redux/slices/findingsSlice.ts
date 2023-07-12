@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ResourceStatus from "../../interfaces/ResourceStatus";
+import { ResourceStatus, ResourceName } from "../../types/types";
 
 const initialState: ResourceStatus = {
   wood: 0,
@@ -48,7 +48,7 @@ const findingsSlice = createSlice({
       state,
       {
         payload: { resource, quantity },
-      }: { payload: { resource: keyof typeof initialState; quantity: number } }
+      }: { payload: { resource: ResourceName; quantity: number } }
     ) => {
       state[resource] += quantity;
     },
@@ -56,12 +56,12 @@ const findingsSlice = createSlice({
       state,
       {
         payload: { resource, quantity },
-      }: { payload: { resource: keyof typeof initialState; quantity: number } }
+      }: { payload: { resource: ResourceName; quantity: number } }
     ) => {
       state[resource] -= quantity;
     },
     reset: (state) => {
-      return initialState; // initialState에 의존 안 하는 방법 없을까
+      return { ...initialState };
     },
     update: (state, action) => {
       return action.payload;

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ResourceStatus from "../../interfaces/ResourceStatus";
+import { ResourceStatus, ResourceName } from "../../types/types";
 
 const initialState: ResourceStatus = {
   wood: 4,
@@ -78,4 +78,3 @@ const storageSlice = createSlice({
 
 export const { add, discard, update, initialize } = storageSlice.actions;
 export default storageSlice.reducer;
-export type ResourceName = keyof typeof initialState;

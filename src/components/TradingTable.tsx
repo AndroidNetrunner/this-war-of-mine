@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
-import { ResourceName } from "../redux/slices/resourceSlice";
+import { ResourceName } from "../types/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import styles from "./styles/TradingTable.module.css";
@@ -16,17 +16,20 @@ export default function TradingTable({
   possession: "myself" | "opponent";
   className: string;
 }) {
+  const [forSale, setForSale] = useState(() => getInitialSale(resourceList));
   return (
     <Table className={className}>
       <TradingTableHead possession={possession} />
       <tbody>
         {Object.entries(resourceList)
-          .filter(([name, quantity]) => quantity !== 0)
-          .map(([name, quantity]) => (
+          .filter(([name, currentQuantity]) => currentQuantity !== 0)
+          .map(([name, currentQuantity]) => (
             <TradingTableRow
               key={name}
               name={name as ResourceName}
-              quantity={quantity}
+              forSaleQuantity={forSale[name]}
+              currentQuantity={currentQuantity}
+              setForSale={setForSale}
             />
           ))}
       </tbody>
@@ -57,10 +60,18 @@ function TradingTableHead({
 
 function TradingTableRow({
   name,
-  quantity,
+  forSaleQuantity,
+  currentQuantity,
+  setForSale,
 }: {
   name: ResourceName;
-  quantity: number;
+  forSaleQuantity: number;
+  currentQuantity: number;
+  setForSale: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: number;
+    }>
+  >;
 }) {
   const { value, weight, korean } = useSelector(
     (state: RootState) => state.resource[name]
@@ -68,9 +79,19 @@ function TradingTableRow({
   return (
     <tr>
       <td>{korean}</td>
-      <td>{quantity}</td>
+      <td>{forSaleQuantity}</td>
+      <td>{currentQuantity}</td>
       <td>{weight}</td>
       <td>{value}</td>
     </tr>
   );
+}
+
+function getInitialSale(resourceList: { [key: string]: number }) {
+  return Object.keys(resourceList)
+    .filter((key) => resourceList[key] != 0)
+    .reduce((acc: { [key: string]: number }, key) => {
+      acc[key] = 0;
+      return acc;
+    }, {});
 }

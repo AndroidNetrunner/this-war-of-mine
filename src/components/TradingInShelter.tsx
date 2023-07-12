@@ -4,12 +4,10 @@ import Table from "react-bootstrap/Table";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import TradingRow from "./TradingRow";
-import { ResourceName } from "../redux/slices/resourceSlice";
-import ResourceStatus from "../interfaces/ResourceStatus";
 import { update } from "../redux/slices/storageSlice";
 import { reset } from "../redux/slices/tradingSlice";
 import styles from "./styles/TradingInShelter.module.css";
-import ResourceInfoList from "../interfaces/ResourceInfoList";
+import { ResourceName, ResourceStatus, ResourceInfoList } from "../types/types";
 
 export default function TradingInShelter({ comission }: { comission: number }) {
   const resource = useSelector((state: RootState) => state.resource);

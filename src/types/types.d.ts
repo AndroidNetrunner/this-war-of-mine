@@ -1,4 +1,11 @@
-import { color } from "../utils";
+export type color =
+  | "green"
+  | "gray"
+  | "red"
+  | "blue"
+  | "brown"
+  | "yellow"
+  | "white";
 
 interface ResourceInfo {
   english: string;
@@ -10,7 +17,7 @@ interface ResourceInfo {
   className: string;
 }
 
-export default interface ResourceInfoList {
+export interface ResourceInfoList {
   wood: ResourceInfo;
   component: ResourceInfo;
   water: ResourceInfo;
@@ -48,3 +55,7 @@ export default interface ResourceInfoList {
   meds: ResourceInfo;
   bandages: ResourceInfo;
 }
+
+export type ResourceName = keyof ResourceInfoList;
+
+export type ResourceStatus = Record<ResourceName, number>;
