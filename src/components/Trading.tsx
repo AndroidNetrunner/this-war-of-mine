@@ -6,7 +6,11 @@ import { AppDispatch } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import TradingTable from "./TradingTable";
-import { ResourceInfoList, ResourceStatus, ResourceName } from "../types/types";
+import {
+  ResourceInfoList,
+  ResourceInventory,
+  ResourceName,
+} from "../types/types";
 import useTradingPlace from "../hooks/useTradingPlace";
 import {
   add as addStorage,
@@ -75,6 +79,7 @@ export default function Trading() {
           makeDeal(myself, opponent, tradingPlace, dispatch);
           dispatch(reset());
         }}
+        disabled={!isValidDeal(myself, opponent, comission, resourceInfoList)}
       >
         거래 체결
       </Button>
@@ -108,9 +113,29 @@ export default function Trading() {
   );
 }
 
+function isValidDeal(
+  myself: ResourceInventory,
+  opponent: ResourceInventory,
+  comission: number,
+  resourceInfoList: ResourceInfoList
+) {
+  function createValueCalculator(resourceInfoList: ResourceInfoList) {
+    return (inventory: ResourceInventory) =>
+      Object.keys(inventory).reduce(
+        (acc, key) =>
+          (acc +=
+            inventory[key as ResourceName] *
+            resourceInfoList[key as ResourceName].value),
+        0
+      );
+  }
+  const calculateValue = createValueCalculator(resourceInfoList);
+  return calculateValue(myself) >= calculateValue(opponent) + comission;
+}
+
 function makeDeal(
-  myself: ResourceStatus,
-  opponent: ResourceStatus,
+  myself: ResourceInventory,
+  opponent: ResourceInventory,
   tradingPlace: "shelter" | "outside",
   dispatch: AppDispatch
 ) {
@@ -125,7 +150,7 @@ function createTrade(
   discardAction: Function,
   dispatch: AppDispatch
 ) {
-  return (myself: ResourceStatus, opponent: ResourceStatus) => {
+  return (myself: ResourceInventory, opponent: ResourceInventory) => {
     executeAction(addAction, opponent, dispatch);
     executeAction(discardAction, myself, dispatch);
   };
@@ -133,7 +158,7 @@ function createTrade(
 
 const executeAction = (
   action: Function,
-  person: ResourceStatus,
+  person: ResourceInventory,
   dispatch: AppDispatch
 ) => {
   Object.keys(person)
@@ -149,25 +174,25 @@ const executeAction = (
 };
 
 function getStuffInDemand(
-  resourceStatus: ResourceStatus,
+  resourceStatus: ResourceInventory,
   infoList: ResourceInfoList
-): ResourceStatus {
+): ResourceInventory {
   return Object.keys(resourceStatus)
     .map((key) => key as ResourceName)
     .filter((resource) => {
       return resourceStatus[resource] > 0 && infoList[resource].value > 0;
     })
-    .reduce((acc: ResourceStatus, resource) => {
+    .reduce((acc: ResourceInventory, resource) => {
       acc[resource] = resourceStatus[resource];
       return acc;
-    }, {} as ResourceStatus);
+    }, {} as ResourceInventory);
 }
 
 function getStuffOnSale(
-  storage: ResourceStatus,
-  findings: ResourceStatus,
+  storage: ResourceInventory,
+  findings: ResourceInventory,
   infoList: ResourceInfoList
-): ResourceStatus {
+): ResourceInventory {
   return Object.keys(storage)
     .map((key) => key as ResourceName)
     .filter((resource) => {
@@ -177,10 +202,10 @@ function getStuffOnSale(
           0 && infoList[resource].value > 0
       );
     })
-    .reduce((acc: ResourceStatus, resource) => {
+    .reduce((acc: ResourceInventory, resource) => {
       acc[resource] =
         infoList[resource].maxQuantity -
         (storage[resource] + findings[resource]);
       return acc;
-    }, {} as ResourceStatus);
+    }, {} as ResourceInventory);
 }

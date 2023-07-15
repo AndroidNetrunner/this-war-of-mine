@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ResourceStatus, ResourceName } from "../../types/types";
+import { ResourceInventory, ResourceName } from "../../types/types";
 
-const initialState: ResourceStatus = {
+const initialState: ResourceInventory = {
   wood: 0,
   component: 0,
   water: 0,

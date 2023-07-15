@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ResourceStatus, ResourceName } from "../../types/types";
+import { ResourceInventory, ResourceName } from "../../types/types";
 
-const initialState: ResourceStatus = {
+const initialState: ResourceInventory = {
   wood: 4,
   component: 4,
   water: 2,
@@ -65,7 +65,7 @@ const storageSlice = createSlice({
       {
         payload: newStorage,
       }: {
-        payload: ResourceStatus;
+        payload: ResourceInventory;
       }
     ) => {
       return newStorage;
