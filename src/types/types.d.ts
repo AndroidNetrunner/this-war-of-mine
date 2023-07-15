@@ -58,4 +58,6 @@ export interface ResourceInfoList {
 
 export type ResourceName = keyof ResourceInfoList;
 
-export type ResourceStatus = Record<ResourceName, number>;
+export type ResourceStatus = {
+  [key in ResourceName]: number;
+};

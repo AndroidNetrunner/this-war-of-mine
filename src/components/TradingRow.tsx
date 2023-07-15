@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { add, discard } from "../redux/slices/tradingSlice";
 import Button from "react-bootstrap/Button";
-import { ResourceName } from "../redux/slices/resourceSlice";
+import { ResourceName } from "../types/types";
 import styles from "./styles/TradingRow.module.css";
 
 export default function TradingRow({

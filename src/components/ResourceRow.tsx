@@ -2,11 +2,7 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles/ResourceRow.module.css";
 import { RootState } from "../redux/store";
-import {
-  ResourceName,
-  raiseValue,
-  lowerValue,
-} from "../redux/slices/resourceSlice";
+import { raiseValue, lowerValue } from "../redux/slices/resourceSlice";
 import {
   add as addFindings,
   discard as discardFindings,
@@ -15,6 +11,7 @@ import {
   add as addStorage,
   discard as discardStorage,
 } from "../redux/slices/storageSlice";
+import { ResourceName } from "../types/types";
 
 export default function ResourceRow({
   resource,

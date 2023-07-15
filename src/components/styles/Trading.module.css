@@ -1,19 +1,31 @@
 .container {
   display: flex;
+  justify-content: center;
+}
+
+.flexItem {
+  flex: 1;
 }
 
 .opponent,
 .myself {
   font-size: 1rem;
   color: white;
-  flex: 1;
 }
 
-.myself tr {
-  border-right: 1rem double white;
+div.opponent {
+  border-left: 1rem double white;
 }
 
 .myself td,
 .opponent td {
   border: none;
+}
+
+.plus {
+  margin-right: 1em;
+}
+
+.minus {
+  margin-left: 1em;
 }

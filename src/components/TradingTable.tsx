@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 import { ResourceName } from "../types/types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import styles from "./styles/TradingTable.module.css";
+import { add, discard } from "../redux/slices/tradingSlice";
 
 export default function TradingTable({
   possession,
@@ -16,24 +18,26 @@ export default function TradingTable({
   possession: "myself" | "opponent";
   className: string;
 }) {
-  const [forSale, setForSale] = useState(() => getInitialSale(resourceList));
+  const forSale = useSelector((state: RootState) => state.trading[possession]);
   return (
-    <Table className={className}>
-      <TradingTableHead possession={possession} />
-      <tbody>
-        {Object.entries(resourceList)
-          .filter(([name, currentQuantity]) => currentQuantity !== 0)
-          .map(([name, currentQuantity]) => (
-            <TradingTableRow
-              key={name}
-              name={name as ResourceName}
-              forSaleQuantity={forSale[name]}
-              currentQuantity={currentQuantity}
-              setForSale={setForSale}
-            />
-          ))}
-      </tbody>
-    </Table>
+    <>
+      <Table className={className}>
+        <TradingTableHead possession={possession} />
+        <tbody>
+          {Object.entries(resourceList)
+            .filter(([name, currentQuantity]) => currentQuantity !== 0)
+            .map(([name, currentQuantity]) => (
+              <TradingTableRow
+                key={name}
+                name={name as ResourceName}
+                forSaleQuantity={forSale[name as ResourceName]}
+                currentQuantity={currentQuantity}
+                possession={possession}
+              />
+            ))}
+        </tbody>
+      </Table>
+    </>
   );
 }
 
@@ -62,36 +66,56 @@ function TradingTableRow({
   name,
   forSaleQuantity,
   currentQuantity,
-  setForSale,
+  possession,
 }: {
   name: ResourceName;
   forSaleQuantity: number;
   currentQuantity: number;
-  setForSale: React.Dispatch<
-    React.SetStateAction<{
-      [key: string]: number;
-    }>
-  >;
+  possession: "myself" | "opponent";
 }) {
   const { value, weight, korean } = useSelector(
     (state: RootState) => state.resource[name]
   );
+  const dispatch = useDispatch();
   return (
-    <tr>
+    <tr className={styles.tradingTableRow}>
       <td>{korean}</td>
-      <td>{forSaleQuantity}</td>
+      <td>
+        <Button
+          variant="success"
+          className={styles.plus}
+          onClick={() =>
+            dispatch(
+              add({
+                person: possession,
+                resource: name,
+              })
+            )
+          }
+          disabled={forSaleQuantity >= currentQuantity}
+        >
+          +
+        </Button>
+        {forSaleQuantity}
+        <Button
+          variant="danger"
+          className={styles.minus}
+          onClick={() =>
+            dispatch(
+              discard({
+                person: possession,
+                resource: name,
+              })
+            )
+          }
+          disabled={!forSaleQuantity}
+        >
+          -
+        </Button>
+      </td>
       <td>{currentQuantity}</td>
       <td>{weight}</td>
       <td>{value}</td>
     </tr>
   );
-}
-
-function getInitialSale(resourceList: { [key: string]: number }) {
-  return Object.keys(resourceList)
-    .filter((key) => resourceList[key] != 0)
-    .reduce((acc: { [key: string]: number }, key) => {
-      acc[key] = 0;
-      return acc;
-    }, {});
 }

@@ -97,7 +97,7 @@ const tradingSlice = createSlice({
       }
     ) => {
       state[payload.person][payload.resource] =
-        state[payload.person][payload.resource] || 0 + 1;
+        (state[payload.person][payload.resource] || 0) + 1;
     },
     discard: (
       state,
@@ -111,7 +111,7 @@ const tradingSlice = createSlice({
       }
     ) => {
       state[payload.person][payload.resource] =
-        state[payload.person][payload.resource] || 0 - 1;
+        (state[payload.person][payload.resource] || 0) - 1;
     },
   },
 });
