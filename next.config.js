@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  distDir: "docs",
-  basePath: "/this-war-of-mine",
-};
+const nextConfig = {};
 
 module.exports = nextConfig;
