@@ -37,7 +37,9 @@ export default function Trading() {
   const decrementComission = () => {
     if (comission > 0) setComission((prev) => prev - 1);
   };
-
+  const calculateValue = createValueCalculator(resourceInfoList);
+  const myValue = calculateValue(myself);
+  const opponentValue = calculateValue(opponent);
   return (
     <>
       <h1>
@@ -73,13 +75,17 @@ export default function Trading() {
           onChange={handleTradingPlaceChange}
         />
       </Form>
+      <div>
+        내 가치: {myValue} vs 상대방 가치: {opponentValue} + 거래 수수료:{" "}
+        {comission}
+      </div>
       <Button
         variant="primary"
         onClick={() => {
           makeDeal(myself, opponent, tradingPlace, dispatch);
           dispatch(reset());
         }}
-        disabled={!isValidDeal(myself, opponent, comission, resourceInfoList)}
+        disabled={myValue < opponentValue + comission}
       >
         거래 체결
       </Button>
@@ -113,24 +119,15 @@ export default function Trading() {
   );
 }
 
-function isValidDeal(
-  myself: ResourceInventory,
-  opponent: ResourceInventory,
-  comission: number,
-  resourceInfoList: ResourceInfoList
-) {
-  function createValueCalculator(resourceInfoList: ResourceInfoList) {
-    return (inventory: ResourceInventory) =>
-      Object.keys(inventory).reduce(
-        (acc, key) =>
-          (acc +=
-            inventory[key as ResourceName] *
-            resourceInfoList[key as ResourceName].value),
-        0
-      );
-  }
-  const calculateValue = createValueCalculator(resourceInfoList);
-  return calculateValue(myself) >= calculateValue(opponent) + comission;
+function createValueCalculator(resourceInfoList: ResourceInfoList) {
+  return (inventory: ResourceInventory) =>
+    Object.keys(inventory).reduce(
+      (acc, key) =>
+        (acc +=
+          inventory[key as ResourceName] *
+          resourceInfoList[key as ResourceName].value),
+      0
+    );
 }
 
 function makeDeal(

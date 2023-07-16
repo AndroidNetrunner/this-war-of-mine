@@ -30,6 +30,7 @@ export interface ResourceInfoList {
   rawFood: ResourceInfo;
   cannedFood: ResourceInfo;
   shovel: ResourceInfo;
+  sawblade: ResourceInfo;
   lockpick: ResourceInfo;
   filter: ResourceInfo;
   mechanicalPart: ResourceInfo;

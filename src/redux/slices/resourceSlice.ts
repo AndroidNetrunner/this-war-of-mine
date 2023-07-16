@@ -15,6 +15,7 @@ const initialState: ResourceInfoList = {
   rawFood: makeResourceObject("RAW FOOD", "날고기", "green", 6, 10, 1),
   cannedFood: makeResourceObject("CANNED FOOD", "통조림", "green", 3, 15, 1),
   shovel: makeResourceObject("SHOVEL", "삽", "gray", 2, 6, 1),
+  sawblade: makeResourceObject("SAWBLADE", "줄톱", "gray", 1, 5, 0),
   lockpick: makeResourceObject("LOCKPICK", "자물쇠따개", "gray", 2, 5, 0),
   filter: makeResourceObject("FILTER", "필터", "gray", 3, 1, 1),
   mechanicalPart: makeResourceObject(

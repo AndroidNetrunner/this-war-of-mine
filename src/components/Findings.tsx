@@ -1,27 +1,25 @@
 import React from "react";
 import { Button, Table } from "react-bootstrap";
 import styles from "./styles/Findings.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import FindingsRow from "./ResourceRow";
-import { update } from "../redux/slices/storageSlice";
-import { reset } from "../redux/slices/findingsSlice";
-import { ResourceName } from "../redux/slices/resourceSlice";
-import ResourceStatus from "../interfaces/ResourceStatus";
+import {
+  ResourceName,
+  ResourceInventory,
+  ResourceInfoList,
+} from "../types/types";
+import useFindingsHandlers from "../hooks/useFindingsHandlers";
+
 export default function Findings() {
+  const { handleAddToStorage } = useFindingsHandlers();
   const findings = useSelector((state: RootState) => state.findings);
-  const storage = useSelector((state: RootState) => state.storage);
-  const dispatch = useDispatch();
+  const resourceInfoList = useSelector((state: RootState) => state.resource);
+  const calculateWeight = createWeightCalculator(resourceInfoList);
   return (
     <>
-      <Button
-        onClick={() => {
-          dispatch(update(addFindingsToNewStorage(findings, storage)));
-          dispatch(reset());
-        }}
-      >
-        저장고에 추가
-      </Button>
+      <Button onClick={handleAddToStorage}>저장고에 추가</Button>
+      <div>총 무게: {calculateWeight(findings)}</div>
       <Table className={styles.findings}>
         <thead>
           <tr>
@@ -46,14 +44,14 @@ export default function Findings() {
   );
 }
 
-function addFindingsToNewStorage(
-  findings: ResourceStatus,
-  storage: ResourceStatus
-) {
-  const newStorage: ResourceStatus = { ...storage };
-  Object.keys(newStorage).forEach((resource) => {
-    newStorage[resource as ResourceName] =
-      storage[resource as ResourceName] + findings[resource as ResourceName];
-  });
-  return newStorage;
+function createWeightCalculator(resourceInfoList: ResourceInfoList) {
+  return (inventory: ResourceInventory) => {
+    return Object.keys(inventory).reduce(
+      (acc, resourceName) =>
+        (acc +=
+          inventory[resourceName as ResourceName] *
+          resourceInfoList[resourceName as ResourceName].weight),
+      0
+    );
+  };
 }

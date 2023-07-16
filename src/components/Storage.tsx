@@ -9,7 +9,6 @@ import { ResourceName } from "../types/types";
 export default function Storage() {
   const resource = useSelector((state: RootState) => state.resource);
   return (
-    // 각 버튼을 가운데 정렬, 버튼이 열에 같은 곳에 있도록 하기
     <Table className={styles.storage}>
       <thead>
         <tr>

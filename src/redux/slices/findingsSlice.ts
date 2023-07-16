@@ -15,6 +15,7 @@ const initialState: ResourceInventory = {
   cannedFood: 0,
   shovel: 0,
   lockpick: 0,
+  sawblade: 0,
   filter: 0,
   mechanicalPart: 0,
   electricalPart: 0,
