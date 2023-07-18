@@ -1,11 +1,9 @@
 import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Inter } from "next/font/google";
 import type { AppProps } from "next/app";
 import store from "../redux/store";
 import { Provider } from "react-redux";
-
-const inter = Inter({ subsets: ["latin"] });
+import Head from "next/head";
 
 export const metadata = {
   title: "Create Next App",
