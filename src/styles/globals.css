@@ -29,3 +29,16 @@ html body {
   background-color: black;
   font-family: "UhBeeGENWOO", sans-serif;
 }
+
+html body h1 {
+  font-size: 4vw;
+}
+
+html body h2 {
+  font-size: 2.5vw;
+}
+
+html body p,
+html body div {
+  font-size: 1.7vw;
+}

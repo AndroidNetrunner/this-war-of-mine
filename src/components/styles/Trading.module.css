@@ -7,6 +7,10 @@
   flex: 1;
 }
 
+.comission {
+  font-size: 2vw;
+}
+
 .opponent,
 .myself {
   font-size: 1rem;

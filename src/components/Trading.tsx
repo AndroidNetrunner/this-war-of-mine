@@ -42,7 +42,7 @@ export default function Trading() {
   const opponentValue = calculateValue(opponent);
   return (
     <>
-      <h1>
+      <h1 className={styles.comission}>
         거래 수수료:{" "}
         <Button
           variant="success"
