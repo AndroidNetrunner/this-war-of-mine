@@ -12,6 +12,7 @@ import {
   discard as discardStorage,
 } from "../redux/slices/storageSlice";
 import { ResourceName } from "../types/types";
+import ControlButton from "./ControlButton";
 
 export default function ResourceRow({
   resource,
@@ -48,46 +49,35 @@ export default function ResourceRow({
       <td>{korean}</td>
       <td className={!currentQuantity ? styles.zero : ""}>
         <div className={styles.flexContainer}>
-          <Button
-            variant="success"
-            disabled={!inventory}
-            onClick={() => dispatch(add({ resource: resource, quantity: 1 }))}
-          >
-            +
-          </Button>
-          {` ${currentQuantity} `}
-          <Button
-            variant="danger"
-            disabled={!currentQuantity}
-            onClick={() =>
-              dispatch(discard({ resource: resource, quantity: 1 }))
-            }
-          >
-            -
-          </Button>
+          <ControlButton
+            onClick={{
+              plus: () => dispatch(add({ resource, quantity: 1 })),
+              minus: () => dispatch(discard({ resource, quantity: 1 })),
+            }}
+            disabled={{
+              plus: !inventory,
+              minus: !currentQuantity,
+            }}
+            data={currentQuantity}
+          />
         </div>
       </td>
       <td className={styles.weight}>{weight}</td>
       <td className={styles.value}>
         <div className={styles.flexContainer}>
-          <Button
-            variant="success"
-            onClick={() =>
-              dispatch(raiseValue({ resource: resource, modifier: 1 }))
-            }
-          >
-            +
-          </Button>
-          {` ${value !== -1 ? value : "거래 불가(-1)"} `}
-          <Button
-            variant="danger"
-            disabled={value < 0}
-            onClick={() =>
-              dispatch(lowerValue({ resource: resource, modifier: 1 }))
-            }
-          >
-            -
-          </Button>
+          <ControlButton
+            onClick={{
+              plus: () =>
+                dispatch(raiseValue({ resource: resource, modifier: 1 })),
+              minus: () =>
+                dispatch(lowerValue({ resource: resource, modifier: 1 })),
+            }}
+            disabled={{
+              plus: false,
+              minus: value < 0,
+            }}
+            data={value !== -1 ? value : "거래 불가(-1)"}
+          />
         </div>
       </td>
       <td className={!inventory ? styles.zero : ""}>{inventory}</td>

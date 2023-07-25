@@ -2,25 +2,22 @@ import React, { useState, useMemo } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/Trading.module.css";
-import { AppDispatch } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import TradingTable from "./TradingTable";
-import {
-  ResourceInfoList,
-  ResourceInventory,
-  ResourceName,
-} from "../types/types";
 import useTradingPlace from "../hooks/useTradingPlace";
-import {
-  add as addStorage,
-  discard as discardStorage,
-} from "../redux/slices/storageSlice";
-import {
-  add as addFindings,
-  discard as discardFindings,
-} from "../redux/slices/findingsSlice";
 import { reset } from "../redux/slices/tradingSlice";
+import {
+  createValueCalculator,
+  getStuffOnSale,
+  makeDeal,
+} from "../utils/tradingUtils";
+import ControlButton from "./ControlButton";
+import TradingPlaceForm from "./TradingPlaceForm";
+import {
+  useMyselfResourceList,
+  useOpponentResourceList,
+} from "../hooks/useResourceList";
 
 const INITIAL_COMMISION = 0;
 
@@ -44,37 +41,22 @@ export default function Trading() {
     <>
       <h1 className={styles.comission}>
         거래 수수료:{" "}
-        <Button
-          variant="success"
-          className={styles.plus}
-          onClick={incrementComission}
-        >
-          +
-        </Button>
-        {comission}
-        <Button
-          variant="danger"
-          className={styles.minus}
-          disabled={!comission}
-          onClick={decrementComission}
-        >
-          -
-        </Button>
+        <ControlButton
+          onClick={{
+            plus: incrementComission,
+            minus: decrementComission,
+          }}
+          disabled={{
+            plus: false,
+            minus: !comission,
+          }}
+          data={comission}
+        />
       </h1>
-      <Form>
-        <Form.Check
-          value="shelter"
-          label="피난처"
-          checked={tradingPlace === "shelter"}
-          onChange={handleTradingPlaceChange}
-        />
-        <Form.Check
-          value="outside"
-          label="수집 지역"
-          checked={tradingPlace === "outside"}
-          onChange={handleTradingPlaceChange}
-        />
-      </Form>
+      <TradingPlaceForm
+        tradingPlace={tradingPlace}
+        handleTradingPlaceChange={handleTradingPlaceChange}
+      />
       <div>
         내 가치: {myValue} vs 상대방 가치: {opponentValue} + 거래 수수료:{" "}
         {comission}
@@ -94,115 +76,17 @@ export default function Trading() {
           <TradingTable
             possession="myself"
             className={styles.myself}
-            resourceList={useMemo(
-              () =>
-                getStuffInDemand(
-                  tradingPlace === "outside" ? findings : storage,
-                  resourceInfoList
-                ),
-              [tradingPlace, storage, findings, resourceInfoList]
-            )}
+            resourceList={useMyselfResourceList(tradingPlace)}
           />
         </div>
         <div className={`${styles.flexItem} ${styles.opponent}`}>
           <TradingTable
             possession="opponent"
             className={styles.opponent}
-            resourceList={useMemo(
-              () => getStuffOnSale(storage, findings, resourceInfoList),
-              [storage, findings, resourceInfoList]
-            )}
+            resourceList={useOpponentResourceList()}
           />
         </div>
       </div>
     </>
   );
-}
-
-function createValueCalculator(resourceInfoList: ResourceInfoList) {
-  return (inventory: ResourceInventory) =>
-    Object.keys(inventory).reduce(
-      (acc, key) =>
-        (acc +=
-          inventory[key as ResourceName] *
-          resourceInfoList[key as ResourceName].value),
-      0
-    );
-}
-
-function makeDeal(
-  myself: ResourceInventory,
-  opponent: ResourceInventory,
-  tradingPlace: "shelter" | "outside",
-  dispatch: AppDispatch
-) {
-  const tradeInShelter = createTrade(addStorage, discardStorage, dispatch);
-  const tradeInOutside = createTrade(addFindings, discardFindings, dispatch);
-  if (tradingPlace === "shelter") tradeInShelter(myself, opponent);
-  else tradeInOutside(myself, opponent);
-}
-
-function createTrade(
-  addAction: Function,
-  discardAction: Function,
-  dispatch: AppDispatch
-) {
-  return (myself: ResourceInventory, opponent: ResourceInventory) => {
-    executeAction(addAction, opponent, dispatch);
-    executeAction(discardAction, myself, dispatch);
-  };
-}
-
-const executeAction = (
-  action: Function,
-  person: ResourceInventory,
-  dispatch: AppDispatch
-) => {
-  Object.keys(person)
-    .filter((key) => person[key as ResourceName] > 0)
-    .forEach((key) =>
-      dispatch(
-        action({
-          resource: key,
-          quantity: person[key as ResourceName],
-        })
-      )
-    );
-};
-
-function getStuffInDemand(
-  resourceStatus: ResourceInventory,
-  infoList: ResourceInfoList
-): ResourceInventory {
-  return Object.keys(resourceStatus)
-    .map((key) => key as ResourceName)
-    .filter((resource) => {
-      return resourceStatus[resource] > 0 && infoList[resource].value > 0;
-    })
-    .reduce((acc: ResourceInventory, resource) => {
-      acc[resource] = resourceStatus[resource];
-      return acc;
-    }, {} as ResourceInventory);
-}
-
-function getStuffOnSale(
-  storage: ResourceInventory,
-  findings: ResourceInventory,
-  infoList: ResourceInfoList
-): ResourceInventory {
-  return Object.keys(storage)
-    .map((key) => key as ResourceName)
-    .filter((resource) => {
-      return (
-        infoList[resource].maxQuantity -
-          (storage[resource] + findings[resource]) >
-          0 && infoList[resource].value > 0
-      );
-    })
-    .reduce((acc: ResourceInventory, resource) => {
-      acc[resource] =
-        infoList[resource].maxQuantity -
-        (storage[resource] + findings[resource]);
-      return acc;
-    }, {} as ResourceInventory);
 }

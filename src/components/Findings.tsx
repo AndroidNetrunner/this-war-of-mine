@@ -4,6 +4,7 @@ import styles from "./styles/Findings.module.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import FindingsRow from "./ResourceRow";
+import TableHeader from "./TableHeader";
 import {
   ResourceName,
   ResourceInventory,
@@ -21,15 +22,7 @@ export default function Findings() {
       <Button onClick={handleAddToStorage}>저장고에 추가</Button>
       <div>총 무게: {calculateWeight(findings)}</div>
       <Table className={styles.findings}>
-        <thead>
-          <tr>
-            <th>이름</th>
-            <th>수량</th>
-            <th>무게</th>
-            <th>가치</th>
-            <th>여분</th>
-          </tr>
-        </thead>
+        <TableHeader />
         <tbody>
           {Object.keys(findings).map((resource) => (
             <FindingsRow

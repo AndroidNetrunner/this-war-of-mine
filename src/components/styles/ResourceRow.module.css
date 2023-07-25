@@ -32,13 +32,13 @@ tr > td.zero {
   color: red;
 }
 
+td.value {
+  color: yellow;
+}
+
 .flexContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-}
-
-td.value {
-  color: yellow;
 }
