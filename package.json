@@ -21,6 +21,7 @@
     "next-redux-wrapper": "^8.1.0",
     "postcss": "8.4.23",
     "react-bootstrap": "^2.7.4",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-redux": "^7.2.9",
     "redux": "^4.2.1",

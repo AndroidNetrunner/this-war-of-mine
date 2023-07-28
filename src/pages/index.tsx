@@ -1,43 +1,42 @@
+import { useEffect, useState } from "react";
+import { isMobileOnly } from "react-device-detect";
 import { Button } from "react-bootstrap";
 import { useRouter } from "next/router";
 
 export default function Home() {
   const router = useRouter();
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+  useEffect(() => {
+    setIsMobileDevice(isMobileOnly);
+  }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between">
       <h1>This War of Mine boardgame</h1>
       <h2>전쟁 속에서, 모두가 군인인 것은 아니다.</h2>
       <Button variant="secondary" onClick={() => router.push("/shelter")}>
         게임 시작하기
       </Button>
+
+      {isMobileDevice && (
+        <div>
+          <p>
+            이 웹사이트는 PC 또는 태블릿에서 최적화되어 있습니다. 최적화된
+            경험을 위해, PC나 태블릿으로 접속해주세요.
+          </p>
+        </div>
+      )}
+
       <p>
-        매일 밤 돌아오면 너는 편안히 자고 있지.
+        내전이 발발했을 때, 많은 사람들은 몇 주면 끝날 거라고 생각했다.
         <br />
-        그런 네가 부럽구나.
+        군대가 수도에 있는 반군을 포위하고 공급선을 모조리 차단한 지가 1년째다.
         <br />
-        영웅이 날아다니는 너의 세계에는 선과 악, 흑과 백만이 있으니 말이야.
+        사람들은 여전히 도시에 갇힌 채로 허기와 질병, 그리고 끊임없는 포격의
+        위협 아래에서 고통받고 있다.
         <br />
-        하지만 아빠의 세상은 온통 회색으로 칠해져있어.
-        <br />
-        옳은 길이 무엇인지 알려주는 이정표도 없단다.
-        <br />
-        그러니 감 하나만 믿고서 옳은 일을 했기를 바래야만 해.
-        <br />
-        그런 게 있기라도 하면 말이야.
-        <br />
-        하지만 전쟁이란 세상에서는, 살아남기 위해선 때로는 흑과 백, 선과 악을
-        넘어서서 무엇이든 해야만 하는 거야.
-        <br />
-        그것이 아빠의 현실이지.
-        <br />
-        네가 잠들어 있는 동안에도 아빠는 그 회색의 세상에서 생존을 위한 싸움을
-        멈출 수 없어.
-        <br />
-        그래서 아빠는 때때로 자신이 행하는 일이 옳은 것인지, 그것이 정말 필요한
-        일인지를 잃어버리곤 해.
-        <br />
-        그게 전쟁이란 거란다, 아이야.
+        그리고 이날도 이 끔찍한 전쟁의 종식을 기다리는 또 하나의 절박한 날이다.
       </p>
     </main>
   );
