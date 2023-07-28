@@ -19,8 +19,13 @@ export default function Findings() {
   const calculateWeight = createWeightCalculator(resourceInfoList);
   return (
     <>
-      <Button onClick={handleAddToStorage}>저장고에 추가</Button>
-      <div>총 무게: {calculateWeight(findings)}</div>
+      <div>
+        총 무게: {calculateWeight(findings)}
+        {"  "}
+        <Button onClick={handleAddToStorage} size="lg">
+          저장고에 추가
+        </Button>
+      </div>
       <Table className={styles.findings}>
         <TableHeader />
         <tbody>
