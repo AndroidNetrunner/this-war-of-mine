@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 
 export default function Home() {
   const router = useRouter();
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
 
   useEffect(() => {
-    setIsMobileDevice(isMobileOnly);
+    if (isMobileOnly) {
+      window.alert(
+        "모바일 장치에서 접속하셨습니다. 태블릿은 지원하지 않습니다."
+      );
+    }
   }, []);
 
   return (
@@ -24,14 +27,6 @@ export default function Home() {
           게임 시작하기
         </Button>
       </div>
-      {isMobileDevice && (
-        <div>
-          <p>
-            이 웹사이트는 PC 또는 태블릿에서 최적화되어 있습니다. 최적화된
-            경험을 위해, PC나 태블릿으로 접속해주세요.
-          </p>
-        </div>
-      )}
       <br />
       <p>
         내전이 발발했을 때, 많은 사람들은 몇 주면 끝날 거라고 생각했다.
