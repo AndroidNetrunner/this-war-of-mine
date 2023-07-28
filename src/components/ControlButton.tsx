@@ -12,25 +12,21 @@ export default function ControlButton({
     minus: boolean;
   };
   onClick: {
-    plus: Function;
-    minus: Function;
+    plus: React.MouseEventHandler<HTMLButtonElement>;
+    minus: React.MouseEventHandler<HTMLButtonElement>;
   };
   data: number | string;
 }) {
   return (
     <>
-      <Button
-        variant="success"
-        disabled={disabled.plus}
-        onClick={onClick.plus()}
-      >
+      <Button variant="success" disabled={disabled.plus} onClick={onClick.plus}>
         +
       </Button>
       {data}
       <Button
         variant="danger"
         disabled={disabled.minus}
-        onClick={onClick.minus()}
+        onClick={onClick.minus}
       >
         -
       </Button>
