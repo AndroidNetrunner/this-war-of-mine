@@ -12,13 +12,14 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <main className="flex min-h-screen flex-col p-24">
       <h1>This War of Mine boardgame</h1>
       <h2>전쟁 속에서, 모두가 군인인 것은 아니다.</h2>
-      <Button variant="secondary" onClick={() => router.push("/shelter")}>
-        게임 시작하기
-      </Button>
-
+      <div className="items-center">
+        <Button variant="secondary" onClick={() => router.push("/shelter")}>
+          게임 시작하기
+        </Button>
+      </div>
       {isMobileDevice && (
         <div>
           <p>
@@ -27,7 +28,7 @@ export default function Home() {
           </p>
         </div>
       )}
-
+      <br />
       <p>
         내전이 발발했을 때, 많은 사람들은 몇 주면 끝날 거라고 생각했다.
         <br />
