@@ -31,14 +31,14 @@ html body {
 }
 
 html body h1 {
-  font-size: 4vw;
+  font-size: 6vw;
 }
 
 html body h2 {
-  font-size: 2.5vw;
+  font-size: 4vw;
 }
 
 html body p,
 html body div {
-  font-size: 1.7vw;
+  font-size: 2.5vw;
 }

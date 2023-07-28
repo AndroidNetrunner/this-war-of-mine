@@ -16,7 +16,11 @@ export default function Home() {
       <h1>This War of Mine boardgame</h1>
       <h2>전쟁 속에서, 모두가 군인인 것은 아니다.</h2>
       <div className="items-center">
-        <Button variant="secondary" onClick={() => router.push("/shelter")}>
+        <Button
+          variant="secondary"
+          onClick={() => router.push("/shelter")}
+          size="lg"
+        >
           게임 시작하기
         </Button>
       </div>
